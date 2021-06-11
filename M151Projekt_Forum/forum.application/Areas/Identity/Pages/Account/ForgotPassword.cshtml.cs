@@ -38,6 +38,6 @@ namespace forum.application.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnGetAsync()
         {
             return RedirectToPage("Home");
-        };
+        }
     }
 }

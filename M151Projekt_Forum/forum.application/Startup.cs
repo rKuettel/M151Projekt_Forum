@@ -27,7 +27,7 @@ namespace forum.application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ForumDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
@@ -38,7 +38,7 @@ namespace forum.application
                     options.SignIn.RequireConfirmedEmail = false;
 
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ForumDbContext>();
                 
             services.AddControllersWithViews();
 
