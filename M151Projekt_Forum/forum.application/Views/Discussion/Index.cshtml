@@ -1,0 +1,16 @@
+﻿@model List<forum.business.Models.Discussion>
+
+@{
+    @Html.ActionLink("Create new Discussion", "AddDiscussion");
+    foreach (var discussion in Model)
+    {
+        @Html.ActionLink("view", "Index", new {discussion.Id});
+        <div>
+            <h2>
+                @discussion.Title
+            </h2>
+            <p>By: @discussion.Author.UserName</p>
+        </div>
+    }
+}
+<a href="">test</a>
