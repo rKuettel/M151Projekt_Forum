@@ -1,4 +1,4 @@
-using forum.application.Data;
+using forum.business.Data;
 using forum.business.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +32,7 @@ namespace forum.application
                 options.UseMySql(
                     Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(10, 1, 40))));
             services.AddDatabaseDeveloperPageExceptionFilter();
+
 
             services.AddDefaultIdentity<IdentityUser>(options =>
                 {
