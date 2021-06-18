@@ -56,5 +56,11 @@ namespace forum.application.Controllers
             dataAccess.CreateNewDiscussion(newDiscussion);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult UploadPictures()
+        {
+            return View();
+        }
     }
 }
