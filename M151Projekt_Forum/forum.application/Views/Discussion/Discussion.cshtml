@@ -1,0 +1,12 @@
+﻿@model forum.business.Models.Discussion
+
+@{
+    ViewData["Title"] = "Discussion";
+}
+
+<h1>Discussion</h1>
+
+
+<h2>@Model.Title</h2>
+<p>by @Model.Author.UserName</p>
+<p>@Model.Content </p>
