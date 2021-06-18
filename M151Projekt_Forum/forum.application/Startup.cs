@@ -29,8 +29,8 @@ namespace forum.application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ForumDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(10, 1, 40))));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options =>
