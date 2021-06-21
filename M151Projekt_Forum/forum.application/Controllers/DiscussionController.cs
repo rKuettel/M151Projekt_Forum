@@ -21,10 +21,6 @@ namespace forum.application.Controllers
             this.dataAccess = dataAccess;
         }
 
-        //public DiscussionController()
-        //{
-        //    this.dataAccess = new DataAccess(new Data.ForumDbContext());
-        //}
 
         [HttpGet]
         [Route("Discussion/Index/")]
@@ -57,6 +53,37 @@ namespace forum.application.Controllers
             newDiscussion.Author = user;
             dataAccess.CreateNewDiscussion(newDiscussion);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult EditDiscussion(int id) 
+        {
+            Discussion discussion = dataAccess.GetDiscussionById(id);
+            if (discussion.Author.Id == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                return View(discussion);
+            }
+            return RedirectToAction("Index", id);
+            throw new UnauthorizedAccessException("You are not allowed to do this action");
+        }
+
+        [HttpPost]
+        public IActionResult EditDiscussion(Discussion editedDiscussion)
+        {
+            return RedirectToAction("Index", editedDiscussion.Id);
+        }
+
+        [HttpPost]
+        [Route("Discussion/DeleteDiscussion/")]
+        public IActionResult DeleteDiscussion(int id)
+        {
+            var discussion  = dataAccess.GetDiscussionById(id);
+            if (discussion.Author.Id == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                dataAccess.DeleteDiscussion(id);
+                return RedirectToAction("Index");
+            };
+            return View("Unauthorized");
         }
 
         [HttpGet]
