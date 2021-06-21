@@ -4,12 +4,17 @@
     @Html.ActionLink("Create new Discussion", "AddDiscussion");
     foreach (var discussion in Model)
     {
+        
         @Html.ActionLink("view", "Index", new { discussion.Id });
-        @Html.ActionLink("Edit", "EditDiscussion", new { discussion.Id })
-        @using (Html.BeginForm("DeleteDiscussion", "Discussion", new { Id = discussion.Id }, FormMethod.Post))
+        if (@User.Identity.Name == discussion.Author.UserName)
         {
+            @Html.ActionLink("Edit", "EditDiscussion", new { discussion.Id })
+            @using (Html.BeginForm("DeleteDiscussion", "Discussion", new { Id = discussion.Id }, FormMethod.Post))
+            {
+            @Html.AntiForgeryToken()
             <input type="submit" class="button" value="Delete"
                    onclick="return confirm('Soll @discussion.Title wirklich gelöscht werden?')" />
+            }
         }
         <div>
             <h2>
@@ -19,4 +24,4 @@
         </div>
     }
 }
-<a href="">test</a>
+

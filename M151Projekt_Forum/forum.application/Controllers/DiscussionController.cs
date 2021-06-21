@@ -56,6 +56,7 @@ namespace forum.application.Controllers
         }
 
         [HttpGet]
+        [ValidateAntiForgeryToken]
         public IActionResult EditDiscussion(int id) 
         {
             Discussion discussion = dataAccess.GetDiscussionById(id);
@@ -68,12 +69,14 @@ namespace forum.application.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditDiscussion(Discussion editedDiscussion)
         {
             return RedirectToAction("Index", editedDiscussion.Id);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("Discussion/DeleteDiscussion/")]
         public IActionResult DeleteDiscussion(int id)
         {

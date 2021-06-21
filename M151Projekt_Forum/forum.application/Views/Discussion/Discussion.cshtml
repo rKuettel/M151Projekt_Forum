@@ -6,11 +6,15 @@
 
 <h1>Discussion</h1>
 
-@Html.ActionLink("Edit", "EditDiscussion", Model.Id)
-@using (Html.BeginForm("DeleteDiscussion", "Discussion", new { Id = Model.Id}, FormMethod.Post))
+@if (@User.Identity.Name == Model.Author.UserName)
 {
-    <input type="submit" class="button" value="Delete" 
-           onclick="return confirm('Soll @Model.Title wirklich gelöscht werden?')" />
+    @Html.ActionLink("Edit", "EditDiscussion", new { Model.Id })
+    @using (Html.BeginForm("DeleteDiscussion", "Discussion", new { Id = Model.Id }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input type="submit" class="button" value="Delete"
+               onclick="return confirm('Soll @Model.Title wirklich gelöscht werden?')" />
+    }
 }
 <h2>@Model.Title</h2>
 <p>by @Model.Author.UserName</p>
