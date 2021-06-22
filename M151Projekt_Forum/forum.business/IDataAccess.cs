@@ -14,5 +14,6 @@ namespace forum.business.DataAccess
         void DeleteComment(Comment comment);
         Comment GetCommentById(int commentId);
         void DeleteDiscussion(int discussionId);
+        public void EditDiscussion(Discussion editedDiscussion);
     }
 }

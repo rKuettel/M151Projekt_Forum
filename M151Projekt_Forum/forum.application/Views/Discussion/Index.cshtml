@@ -5,23 +5,28 @@
     foreach (var discussion in Model)
     {
         
-        @Html.ActionLink("view", "Index", new { discussion.Id });
         if (@User.Identity.Name == discussion.Author.UserName)
         {
-            @Html.ActionLink("Edit", "EditDiscussion", new { discussion.Id })
+        <div class="actions">
+             
+            @Html.ActionLink("Edit", "EditDiscussion", new { id = discussion.Id})
+            <span>&nbsp;|&nbsp;</span>
             @using (Html.BeginForm("DeleteDiscussion", "Discussion", new { Id = discussion.Id }, FormMethod.Post))
             {
-            @Html.AntiForgeryToken()
-            <input type="submit" class="button" value="Delete"
-                   onclick="return confirm('Soll @discussion.Title wirklich gelöscht werden?')" />
+                @Html.AntiForgeryToken()
+                <input type="submit" class="deleteButton" value="Delete"
+                       onclick="return confirm('Soll @discussion.Title wirklich gelöscht werden?')" />
             }
-        }
-        <div>
-            <h2>
-                @discussion.Title
-            </h2>
-            <p>By: @discussion.Author.UserName</p>
         </div>
+        }
+        <a class="discussionLink" href="@Url.Action("Index", new { id = discussion.Id })">
+            <div>
+                <h2>
+                    @discussion.Title
+                </h2>
+                <p>By: @discussion.Author.UserName</p>
+            </div>
+        </a>
     }
 }
 

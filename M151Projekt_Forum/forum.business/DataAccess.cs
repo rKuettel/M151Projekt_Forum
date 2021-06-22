@@ -93,5 +93,16 @@ namespace forum.business.DataAccess
             context.Discussions.Remove(context.Discussions.Find(discussionId));
             context.SaveChanges();
         }
+
+        public void EditDiscussion(Discussion editedDiscussion) 
+        {
+            var oldDiscussion = context.Discussions.Find(editedDiscussion.Id);
+            if (oldDiscussion != null) 
+            {
+                oldDiscussion.Title = editedDiscussion.Title;
+                oldDiscussion.Content = editedDiscussion.Title;
+            }
+            context.SaveChanges();
+        }
     }
 }

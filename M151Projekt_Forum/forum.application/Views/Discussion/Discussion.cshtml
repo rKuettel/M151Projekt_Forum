@@ -4,17 +4,23 @@
     ViewData["Title"] = "Discussion";
 }
 
+
+@Html.ActionLink("<- Go Back", "Index");
 <h1>Discussion</h1>
+
 
 @if (@User.Identity.Name == Model.Author.UserName)
 {
-    @Html.ActionLink("Edit", "EditDiscussion", new { Model.Id })
-    @using (Html.BeginForm("DeleteDiscussion", "Discussion", new { Id = Model.Id }, FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-        <input type="submit" class="button" value="Delete"
-               onclick="return confirm('Soll @Model.Title wirklich gelöscht werden?')" />
-    }
+    <div class="actions">
+        @Html.ActionLink("Edit", "EditDiscussion", new { Model.Id })
+        <span>&nbsp;|&nbsp;</span>
+        @using (Html.BeginForm("DeleteDiscussion", "Discussion", new { Id = Model.Id }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" class="deleteButton" value="Delete"
+                   onclick="return confirm('Soll @Model.Title wirklich gelöscht werden?')" />
+        }
+    </div>
 }
 <h2>@Model.Title</h2>
 <p>by @Model.Author.UserName</p>

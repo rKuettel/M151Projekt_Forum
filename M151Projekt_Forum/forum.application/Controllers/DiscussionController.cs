@@ -56,7 +56,6 @@ namespace forum.application.Controllers
         }
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public IActionResult EditDiscussion(int id) 
         {
             Discussion discussion = dataAccess.GetDiscussionById(id);
@@ -72,7 +71,13 @@ namespace forum.application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditDiscussion(Discussion editedDiscussion)
         {
-            return RedirectToAction("Index", editedDiscussion.Id);
+            if (editedDiscussion.Author.Id == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                dataAccess.EditDiscussion(editedDiscussion);
+                return RedirectToAction("Index", editedDiscussion.Id);
+            }
+
+            return View("Unauthorized");
         }
 
         [HttpPost]
