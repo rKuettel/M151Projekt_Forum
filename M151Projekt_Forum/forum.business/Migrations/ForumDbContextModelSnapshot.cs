@@ -268,21 +268,8 @@ namespace forum.business.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("DiscussionId")
+                    b.Property<int>("DiscussionId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Extension")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("FileType")
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
@@ -291,29 +278,7 @@ namespace forum.business.Migrations
 
                     b.HasIndex("DiscussionId");
 
-                    b.ToTable("Picture");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Picture");
-                });
-
-            modelBuilder.Entity("forum.business.Models.PictureOnDatabaseModel", b =>
-                {
-                    b.HasBaseType("forum.business.Models.Picture");
-
-                    b.Property<byte[]>("Data")
-                        .HasColumnType("longblob");
-
-                    b.HasDiscriminator().HasValue("PictureOnDatabaseModel");
-                });
-
-            modelBuilder.Entity("forum.business.Models.PictureOnFileSystemModel", b =>
-                {
-                    b.HasBaseType("forum.business.Models.Picture");
-
-                    b.Property<string>("FilePath")
-                        .HasColumnType("longtext");
-
-                    b.HasDiscriminator().HasValue("PictureOnFileSystemModel");
+                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -374,7 +339,7 @@ namespace forum.business.Migrations
                         .HasForeignKey("CommenterId");
 
                     b.HasOne("forum.business.Models.Discussion", "Discussion")
-                        .WithMany("comments")
+                        .WithMany("Comments")
                         .HasForeignKey("DiscussionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -397,12 +362,14 @@ namespace forum.business.Migrations
                 {
                     b.HasOne("forum.business.Models.Discussion", null)
                         .WithMany("Pictures")
-                        .HasForeignKey("DiscussionId");
+                        .HasForeignKey("DiscussionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("forum.business.Models.Discussion", b =>
                 {
-                    b.Navigation("comments");
+                    b.Navigation("Comments");
 
                     b.Navigation("Pictures");
                 });

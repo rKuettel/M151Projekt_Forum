@@ -1,5 +1,4 @@
-﻿using forum.business.DataAccess;
-using forum.business.Data;
+﻿using forum.business.Data;
 using forum.business.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
@@ -28,7 +27,7 @@ namespace forum.business.DataAccess
                     Id = d.Author.Id,
                     UserName = d.Author.UserName
                 },
-                comments = d.comments,
+                Comments = d.Comments,
                 Content = d.Content,
                 Pictures = d.Pictures
             });
@@ -61,9 +60,9 @@ namespace forum.business.DataAccess
             context.SaveChanges();
         }
 
-        public List<Comment> GetAllCommentsFromDiscussion(int discussionId)
+        private List<Comment> GetAllComments()
         {
-            var comments = context.Comments.Where(c => c.DiscussionId == discussionId).Select(d => new Comment
+            var comments = context.Comments.Select(d => new Comment
             {
                 Id = d.Id,
                 DiscussionId = d.DiscussionId,
@@ -77,6 +76,12 @@ namespace forum.business.DataAccess
             });
             return comments.ToList();
         }
+
+        public List<Comment> GetAllCommentsFromDiscussion(int discussionId)
+        {
+            var comments = GetAllComments().Where(c => c.DiscussionId == discussionId);
+            return comments.ToList();
+        }
         public void DeleteComment(Comment comment)
         {
             context.Comments.Remove(comment);
@@ -84,7 +89,7 @@ namespace forum.business.DataAccess
         }
         public Comment GetCommentById(int commentId)
         {
-            var comment = context.Comments.Where(c => c.Id == commentId).First();
+            var comment = GetAllComments().Where(c => c.Id == commentId).First();
             return comment;
         }
 
@@ -94,10 +99,10 @@ namespace forum.business.DataAccess
             context.SaveChanges();
         }
 
-        public void EditDiscussion(Discussion editedDiscussion) 
+        public void EditDiscussion(Discussion editedDiscussion)
         {
             var oldDiscussion = context.Discussions.Find(editedDiscussion.Id);
-            if (oldDiscussion != null) 
+            if (oldDiscussion != null)
             {
                 oldDiscussion.Title = editedDiscussion.Title;
                 oldDiscussion.Content = editedDiscussion.Content;

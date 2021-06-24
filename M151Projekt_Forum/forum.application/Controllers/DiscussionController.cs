@@ -41,7 +41,7 @@ namespace forum.application.Controllers
         public IActionResult Details(int id)
         {
             var discussion = dataAccess.GetDiscussionById(id);
-            discussion.comments = dataAccess.GetAllCommentsFromDiscussion(id);
+            discussion.Comments = dataAccess.GetAllCommentsFromDiscussion(id);
             return View("Discussion", discussion);        
         }
 
@@ -59,7 +59,6 @@ namespace forum.application.Controllers
             newDiscussion.Author = user;
             
             
-
             List<IFormFile> fileList = files;
             newDiscussion.Pictures = new List<Picture>();
             foreach (IFormFile file in fileList)
@@ -82,7 +81,7 @@ namespace forum.application.Controllers
                         {
                             DiscussionId = newDiscussion.Id,
                             Name = fileName,
-                            //UploadedBy = newDiscussion.Author,
+                            CreatedOn = DateTime.Now
                         });
                     }
                 }

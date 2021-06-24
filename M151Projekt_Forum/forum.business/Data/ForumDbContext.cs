@@ -8,8 +8,7 @@ namespace forum.business.Data
     {
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<PictureOnDatabaseModel> PicturesOnDatabase { get; set; }
-        public DbSet<PictureOnFileSystemModel> PicturesOnFileSystem { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
         public ForumDbContext(DbContextOptions<ForumDbContext> options) : base(options) { }
     }
 }

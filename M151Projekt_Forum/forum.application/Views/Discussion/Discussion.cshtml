@@ -4,7 +4,7 @@
     ViewData["Title"] = "Discussion";
 }
 
-<a href='javascript:history.go(-1)'>Go Back to Previous Page</a>
+@Html.ActionLink("Go Back", "Index")
 <h1>Discussion</h1>
 
 
@@ -24,10 +24,19 @@
 <h2>@Model.Title</h2>
 <p>by @Model.Author.UserName</p>
 <p>@Model.Content </p>
+
+@foreach (forum.business.Models.Picture picture in Model.Pictures)
+{
+    <img src='/Files/@picture.Name' width="500" />
+    <br />
+    <hr />
+    <br />
+}
+
 <table>
     <tr><th>Comments</th></tr>
     @{
-        foreach (var comment in Model.comments)
+        foreach (var comment in Model.Comments)
         {
             <tr>
                 <td>
@@ -39,27 +48,20 @@
                 <td>
                     @if (comment.Commenter.UserName.Equals(User.Identity.Name))
                     {
-                    <form asp-controller="Comment" asp-action="DeleteComment" asp-route-id="@comment.Id">
+                        <form asp-controller="Comment" asp-action="DeleteComment" asp-route-id="@comment.Id">
 
 
-                        <input type="submit" value="Delete" />
-                        
-                    </form>
+                            <input type="submit" value="Delete" />
+
+                        </form>
                     }
                 </td>
             </tr>
         }
     }
+
+
     <partial name="../../Views/Comment/AddComment.cshtml" model='new forum.business.Models.Comment { DiscussionId = @Model.Id }'>
 </table>
 
-@foreach (forum.business.Models.Picture picture in Model.Pictures)
-{
-    <img src='/Files/@picture.Name' width="500"/>
-    <br />
-    <hr />
-    <br />
-}
 
-
-@Url.Action("UploadPictures", "Discussion")

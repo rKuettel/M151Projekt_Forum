@@ -34,16 +34,22 @@ namespace forum.application.Controllers
             user.Id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             newComment.Commenter = user;
             dataAccess.CreateNewComment(newComment);
-            return RedirectToAction("Index", "Discussion", new { id = newComment.DiscussionId });
+            return RedirectToAction("Details", "Discussion", new { id = newComment.DiscussionId });
         }
 
         [HttpPost]
         [Route("Comment/DeleteComment/{commentId:int}")]
         public IActionResult DeleteComment(int commentId)
         {
+            
             Comment comment = dataAccess.GetCommentById(commentId);
-            dataAccess.DeleteComment(comment);
-            return RedirectToAction("Index", "Discussion", new { id = comment.DiscussionId });
+
+            if (comment.Commenter.Id == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                dataAccess.DeleteComment(comment);
+                return RedirectToAction("Details", "Discussion", new { id = comment.DiscussionId });
+            };
+            return View("Unauthorized");         
         }
     }
 }

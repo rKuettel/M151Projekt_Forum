@@ -12,6 +12,6 @@ namespace forum.business.Models
         public string Title { get; set; }
         public virtual List<Picture> Pictures { get; set; }
         public string Content { get; set; }
-        public virtual List<Comment> comments { get; set; }
+        public virtual List<Comment> Comments { get; set; }
     }
 }

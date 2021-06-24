@@ -27,15 +27,5 @@
     <ProjectReference Include="..\forum.business\forum.business.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\Files\Capture2.PNG" />
-    <None Include="wwwroot\Files\rocheAreal.png" />
-    <None Include="wwwroot\Files\truefact.png" />
-    <None Include="wwwroot\Files\Untitled.png" />
-  </ItemGroup>
 
 </Project>
