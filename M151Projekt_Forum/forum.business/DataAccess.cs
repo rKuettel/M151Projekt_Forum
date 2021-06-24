@@ -87,5 +87,22 @@ namespace forum.business.DataAccess
             var comment = context.Comments.Where(c => c.Id == commentId).First();
             return comment;
         }
+
+        public void DeleteDiscussion(int discussionId)
+        {
+            context.Discussions.Remove(context.Discussions.Find(discussionId));
+            context.SaveChanges();
+        }
+
+        public void EditDiscussion(Discussion editedDiscussion) 
+        {
+            var oldDiscussion = context.Discussions.Find(editedDiscussion.Id);
+            if (oldDiscussion != null) 
+            {
+                oldDiscussion.Title = editedDiscussion.Title;
+                oldDiscussion.Content = editedDiscussion.Content;
+            }
+            context.SaveChanges();
+        }
     }
 }

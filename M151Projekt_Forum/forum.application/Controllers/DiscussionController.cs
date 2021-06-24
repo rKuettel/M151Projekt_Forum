@@ -21,10 +21,6 @@ namespace forum.application.Controllers
             this.dataAccess = dataAccess;
         }
 
-        //public DiscussionController()
-        //{
-        //    this.dataAccess = new DataAccess(new Data.ForumDbContext());
-        //}
 
         [HttpGet]
         [Route("Discussion/Index/")]
@@ -35,12 +31,12 @@ namespace forum.application.Controllers
         }
 
         [HttpGet]
-        [Route("Discussion/Index/{id:int}")]
-        public IActionResult Index(int id)
+        [Route("Discussion/Details/{id:int}")]
+        public IActionResult Details(int id)
         {
             var discussion = dataAccess.GetDiscussionById(id);
             discussion.comments = dataAccess.GetAllCommentsFromDiscussion(id);
-            return View("Discussion", discussion);
+            return View("Discussion", discussion);        
         }
 
         [HttpGet]
@@ -57,6 +53,45 @@ namespace forum.application.Controllers
             newDiscussion.Author = user;
             dataAccess.CreateNewDiscussion(newDiscussion);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult EditDiscussion(int id) 
+        {
+            Discussion discussion = dataAccess.GetDiscussionById(id);
+            if (discussion.Author.Id == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                return View(discussion);
+            }
+            return RedirectToAction("Details", id);
+            throw new UnauthorizedAccessException("You are not allowed to do this action");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditDiscussion(Discussion editedDiscussion)
+        {
+            if (editedDiscussion.Author.Id == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                dataAccess.EditDiscussion(editedDiscussion);
+                return RedirectToAction("Index", editedDiscussion.Id);
+            }
+
+            return View("Unauthorized");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Discussion/DeleteDiscussion/")]
+        public IActionResult DeleteDiscussion(int id)
+        {
+            var discussion  = dataAccess.GetDiscussionById(id);
+            if (discussion.Author.Id == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                dataAccess.DeleteDiscussion(id);
+                return RedirectToAction("Index");
+            };
+            return View("Unauthorized");
         }
 
         [HttpGet]
