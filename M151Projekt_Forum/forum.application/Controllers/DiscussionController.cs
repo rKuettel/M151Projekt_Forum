@@ -10,17 +10,21 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace forum.application.Controllers
 {
     [Authorize]
     public class DiscussionController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
+
         private readonly IDataAccess dataAccess;
 
-        public DiscussionController(IDataAccess dataAccess)
+        public DiscussionController(IDataAccess dataAccess, IHostingEnvironment hostingEnvironment)
         {
             this.dataAccess = dataAccess;
+            _hostingEnvironment = hostingEnvironment;
         }
 
 
@@ -60,12 +64,14 @@ namespace forum.application.Controllers
             newDiscussion.Pictures = new List<Picture>();
             foreach (IFormFile file in fileList)
             {
-                var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
+                string fileGuid = Guid.NewGuid().ToString();
+                string directory = _hostingEnvironment.WebRootPath;
+                var basePath = Path.Combine(directory + "\\Files\\");
                 bool basePathExists = System.IO.Directory.Exists(basePath);
                 if (!basePathExists) Directory.CreateDirectory(basePath);
-                var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                var filePath = Path.Combine(basePath, file.FileName);
-                var extension = Path.GetExtension(file.FileName);
+                var fileExtension = Path.GetExtension(file.FileName);
+                var fileName = fileGuid + fileExtension;
+                var filePath = Path.Combine(basePath, fileName);
                 
                 if (!System.IO.File.Exists(filePath))
                 {
@@ -75,12 +81,10 @@ namespace forum.application.Controllers
                         newDiscussion.Pictures.Add(new Picture
                         {
                             DiscussionId = newDiscussion.Id,
-                            Name = filePath,
+                            Name = fileName,
                             //UploadedBy = newDiscussion.Author,
-                            FileType = extension
                         });
                     }
-
                 }
             }
             dataAccess.CreateNewDiscussion(newDiscussion);
