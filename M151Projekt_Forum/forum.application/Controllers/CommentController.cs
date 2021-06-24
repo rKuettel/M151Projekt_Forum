@@ -29,6 +29,7 @@ namespace forum.application.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("Comment/AddComment/{discussionId:int}")]
         public IActionResult AddComment(Comment newComment)
         {
@@ -40,6 +41,7 @@ namespace forum.application.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("Comment/DeleteComment/{commentId:int}")]
         public IActionResult DeleteComment(int commentId)
         {
