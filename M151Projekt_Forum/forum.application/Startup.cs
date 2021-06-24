@@ -1,3 +1,4 @@
+using forum.business;
 using forum.business.Data;
 using forum.business.DataAccess;
 using Microsoft.AspNetCore.Builder;
@@ -56,6 +57,7 @@ namespace forum.application
 
 
             services.AddScoped<IDataAccess, DataAccess>();
+            services.AddScoped<IPictureUpload, PictureUpload>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

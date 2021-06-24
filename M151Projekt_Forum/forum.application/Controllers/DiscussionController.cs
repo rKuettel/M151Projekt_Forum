@@ -11,20 +11,20 @@ using Microsoft.AspNetCore.Identity;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using forum.business;
 
 namespace forum.application.Controllers
 {
     [Authorize]
     public class DiscussionController : Controller
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-
         private readonly IDataAccess dataAccess;
+        private readonly IPictureUpload pictureUpload;
 
-        public DiscussionController(IDataAccess dataAccess, IHostingEnvironment hostingEnvironment)
+        public DiscussionController(IDataAccess dataAccess, IPictureUpload pictureUpload)
         {
             this.dataAccess = dataAccess;
-            _hostingEnvironment = hostingEnvironment;
+            this.pictureUpload = pictureUpload;
         }
 
         [AllowAnonymous]
@@ -58,35 +58,9 @@ namespace forum.application.Controllers
             var user = new IdentityUser();
             user.Id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             newDiscussion.Author = user;
-            
-            
-            List<IFormFile> fileList = files;
-            newDiscussion.Pictures = new List<Picture>();
-            foreach (IFormFile file in fileList)
-            {
-                string fileGuid = Guid.NewGuid().ToString();
-                string directory = _hostingEnvironment.WebRootPath;
-                var basePath = Path.Combine(directory + "\\Files\\");
-                bool basePathExists = System.IO.Directory.Exists(basePath);
-                if (!basePathExists) Directory.CreateDirectory(basePath);
-                var fileExtension = Path.GetExtension(file.FileName);
-                var fileName = fileGuid + fileExtension;
-                var filePath = Path.Combine(basePath, fileName);
-                
-                if (!System.IO.File.Exists(filePath))
-                {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                        newDiscussion.Pictures.Add(new Picture
-                        {
-                            DiscussionId = newDiscussion.Id,
-                            Name = fileName,
-                            CreatedOn = DateTime.Now
-                        });
-                    }
-                }
-            }
+
+            newDiscussion.Pictures = await pictureUpload.UploadFile(files);
+
             dataAccess.CreateNewDiscussion(newDiscussion);
             return RedirectToAction("Index");
         }
