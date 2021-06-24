@@ -100,7 +100,7 @@ namespace forum.business.DataAccess
             if (oldDiscussion != null) 
             {
                 oldDiscussion.Title = editedDiscussion.Title;
-                oldDiscussion.Content = editedDiscussion.Title;
+                oldDiscussion.Content = editedDiscussion.Content;
             }
             context.SaveChanges();
         }
