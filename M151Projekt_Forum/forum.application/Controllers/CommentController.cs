@@ -7,9 +7,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using forum.business.Models;
 using forum.business.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 
 namespace forum.application.Controllers
 {
+    [Authorize]
     public class CommentController : Controller
     {
         private readonly IDataAccess dataAccess;

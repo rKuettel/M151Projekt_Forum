@@ -27,7 +27,7 @@ namespace forum.application.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("Discussion/Index/")]
         public IActionResult Index()
@@ -36,6 +36,7 @@ namespace forum.application.Controllers
             return View(discussions);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("Discussion/Details/{id:int}")]
         public IActionResult Details(int id)
@@ -128,13 +129,5 @@ namespace forum.application.Controllers
             };
             return View("Unauthorized");
         }
-
-        [HttpGet]
-        public IActionResult UploadPictures()
-        {
-            return View();
-        }
-
-
     }
 }

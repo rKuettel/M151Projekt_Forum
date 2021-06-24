@@ -20,13 +20,9 @@ namespace forum.application.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Discussion");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
