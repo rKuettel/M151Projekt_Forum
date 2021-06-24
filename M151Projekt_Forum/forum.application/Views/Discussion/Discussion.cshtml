@@ -10,5 +10,33 @@
 <h2>@Model.Title</h2>
 <p>by @Model.Author.UserName</p>
 <p>@Model.Content </p>
+<table>
+    <tr><th>Comments</th></tr>
+    @{
+        foreach (var comment in Model.comments)
+        {
+            <tr>
+                <td>
+                    @comment.Content
+                </td>
+                <td>
+                    By: @comment.Commenter.UserName
+                </td>
+                <td>
+                    @if (comment.Commenter.UserName.Equals(User.Identity.Name))
+                    {
+                    <form asp-controller="Comment" asp-action="DeleteComment" asp-route-id="@comment.Id">
+
+
+                        <input type="submit" value="Delete" />
+                        
+                    </form>
+                    }
+                </td>
+            </tr>
+        }
+    }
+    <partial name="../../Views/Comment/AddComment.cshtml" model='new forum.business.Models.Comment { DiscussionId = @Model.Id }'>
+</table>
 
 @Url.Action("UploadPictures", "Discussion")

@@ -38,7 +38,9 @@ namespace forum.application.Controllers
         [Route("Discussion/Index/{id:int}")]
         public IActionResult Index(int id)
         {
-            return View("Discussion", dataAccess.GetDiscussionById(id));
+            var discussion = dataAccess.GetDiscussionById(id);
+            discussion.comments = dataAccess.GetAllCommentsFromDiscussion(id);
+            return View("Discussion", discussion);
         }
 
         [HttpGet]
@@ -62,5 +64,7 @@ namespace forum.application.Controllers
         {
             return View();
         }
+
+
     }
 }

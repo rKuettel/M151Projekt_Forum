@@ -51,5 +51,41 @@ namespace forum.business.DataAccess
             context.Discussions.Add(discussion);
             context.SaveChanges();
         }
+
+        public void CreateNewComment(Comment comment)
+        {
+            comment.Id = 0;
+            var author = context.Users.FirstOrDefault(u => u.Id == comment.Commenter.Id);
+            comment.Commenter = author;
+            context.Comments.Add(comment);
+            context.SaveChanges();
+        }
+
+        public List<Comment> GetAllCommentsFromDiscussion(int discussionId)
+        {
+            var comments = context.Comments.Where(c => c.DiscussionId == discussionId).Select(d => new Comment
+            {
+                Id = d.Id,
+                DiscussionId = d.DiscussionId,
+                Commenter = new IdentityUser
+                {
+                    // ToDo: Add test that username is not null
+                    Id = d.Commenter.Id,
+                    UserName = d.Commenter.UserName
+                },
+                Content = d.Content,
+            });
+            return comments.ToList();
+        }
+        public void DeleteComment(Comment comment)
+        {
+            context.Comments.Remove(comment);
+            context.SaveChanges();
+        }
+        public Comment GetCommentById(int commentId)
+        {
+            var comment = context.Comments.Where(c => c.Id == commentId).First();
+            return comment;
+        }
     }
 }

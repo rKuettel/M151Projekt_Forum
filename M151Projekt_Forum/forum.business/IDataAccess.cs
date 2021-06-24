@@ -6,7 +6,12 @@ namespace forum.business.DataAccess
     public interface IDataAccess
     {
         void CreateNewDiscussion(Discussion discussion);
+        public void CreateNewComment(Comment comment);
         List<Discussion> GetAllDiscussions();
         Discussion GetDiscussionById(int discussionId);
+        List<Comment> GetAllCommentsFromDiscussion(int discussionId);
+
+        void DeleteComment(Comment comment);
+        Comment GetCommentById(int commentId);
     }
 }
