@@ -58,7 +58,7 @@ namespace forum.application.Controllers
         }
 
         [HttpGet]
-        public IActionResult UploadPictures()
+        public IActionResult UploadPictures(int id)
         {
             return View();
         }

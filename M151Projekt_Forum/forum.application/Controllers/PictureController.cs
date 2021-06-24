@@ -8,16 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using forum.business.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace forum.application.Controllers
 {
     public class PictureController : Controller
     {
-        public async Task<IActionResult> Index()
-        {
+        public async Task<IActionResult> Index(int id, IdentityUser author, string title, string content)
+
+        { //id = Model.Id, author = Model.Author, title = Model.Title, content = Model.Content
+            
             var fileUploadViewModel = await LoadAllPictures();
             ViewBag.Message = TempData["Message"];
-            return View(fileUploadViewModel);
+            Discussion discussion = new Discussion();
+            discussion.Id = id;
+            discussion.Author = author;
+            discussion.Title = title;
+            discussion.Content = content;
+            return RedirectToAction("AddDiscussion", "Discussion", discussion);
         }
 
         private readonly ForumDbContext context;
@@ -40,6 +48,7 @@ namespace forum.application.Controllers
         {
             foreach (var file in files)
             {
+                Discussion discussionToAddFileTo = new Discussion()
                 var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
                 bool basePathExists = System.IO.Directory.Exists(basePath);
                 if (!basePathExists) Directory.CreateDirectory(basePath);
@@ -95,6 +104,50 @@ namespace forum.application.Controllers
             TempData["Message"] = $"Removed {file.Name + file.Extension} successfully from File System.";
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> UploadToDatabase(List<IFormFile> files, string description)
+        {
+            foreach (var file in files)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                var extension = Path.GetExtension(file.FileName);
+                var fileModel = new PictureOnDatabaseModel
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    FileType = file.ContentType,
+                    Extension = extension,
+                    Name = fileName,
+                    Description = description
+                };
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    fileModel.Data = dataStream.ToArray();
+                }
+                context.PicturesOnDatabase.Add(fileModel);
+                context.SaveChanges();
+            }
+            TempData["Message"] = "File successfully uploaded to Database";
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DownloadFileFromDatabase(int id)
+        {
+
+            var file = await context.PicturesOnDatabase.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (file == null) return null;
+            return File(file.Data, file.FileType, file.Name + file.Extension);
+        }
+        public async Task<IActionResult> DeleteFileFromDatabase(int id)
+        {
+
+            var file = await context.PicturesOnDatabase.Where(x => x.Id == id).FirstOrDefaultAsync();
+            context.PicturesOnDatabase.Remove(file);
+            context.SaveChanges();
+            TempData["Message"] = $"Removed {file.Name + file.Extension} successfully from Database.";
+            return RedirectToAction("Index");
+        }
+
     }
 
    
