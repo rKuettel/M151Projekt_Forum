@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h4>Start Uploading Files Here</h4>
 <hr />
 @if (ViewBag.Message != null)
@@ -50,9 +51,13 @@ else
                     <td>
                         <a type="button" class="btn btn-primary" asp-controller="Picture" asp-action="DownloadFileFromFileSystem" asp-route-id="@file.Id">Download</a>
                         <a type="button" class="btn btn-danger" asp-controller="Picture" asp-action="DeleteFileFromFileSystem" asp-route-id="@file.Id">Delete</a>
-                    </td>                                                       
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+    <input type="submit" value="Add to Discussion" >
+    @Html.AntiForgeryToken()
+    @Url.Action("AddDiscussion", "Discussion", new { discussion = Model.DiscussionForPicture })
+    <input />
 }

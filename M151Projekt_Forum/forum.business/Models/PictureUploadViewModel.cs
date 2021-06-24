@@ -11,5 +11,7 @@ namespace forum.application
     {
         public List<PictureOnDatabaseModel> PicturesOnDatabase { get; set; }
         public List<PictureOnFileSystemModel> PicturesOnFileSystem { get; set; }
+
+        public Discussion DiscussionForPicture { get; set; }
     }
 }
