@@ -4,11 +4,53 @@
     ViewData["Title"] = "Discussion";
 }
 
+<a href='javascript:history.go(-1)'>Go Back to Previous Page</a>
 <h1>Discussion</h1>
 
 
+@if (@User.Identity.Name == Model.Author.UserName)
+{
+    <div class="actions">
+        @Html.ActionLink("Edit", "EditDiscussion", new { Model.Id })
+        <span>&nbsp;|&nbsp;</span>
+        @using (Html.BeginForm("DeleteDiscussion", "Discussion", new { Id = Model.Id }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" class="deleteButton" value="Delete"
+                   onclick="return confirm('Soll @Model.Title wirklich gelöscht werden?')" />
+        }
+    </div>
+}
 <h2>@Model.Title</h2>
 <p>by @Model.Author.UserName</p>
 <p>@Model.Content </p>
+<table>
+    <tr><th>Comments</th></tr>
+    @{
+        foreach (var comment in Model.comments)
+        {
+            <tr>
+                <td>
+                    @comment.Content
+                </td>
+                <td>
+                    By: @comment.Commenter.UserName
+                </td>
+                <td>
+                    @if (comment.Commenter.UserName.Equals(User.Identity.Name))
+                    {
+                    <form asp-controller="Comment" asp-action="DeleteComment" asp-route-id="@comment.Id">
+
+
+                        <input type="submit" value="Delete" />
+                        
+                    </form>
+                    }
+                </td>
+            </tr>
+        }
+    }
+    <partial name="../../Views/Comment/AddComment.cshtml" model='new forum.business.Models.Comment { DiscussionId = @Model.Id }'>
+</table>
 
 @Url.Action("UploadPictures", "Discussion")

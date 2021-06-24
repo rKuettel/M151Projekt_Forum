@@ -11,5 +11,11 @@ namespace forum.business.Models
         public string Content { get; set; }
         public IdentityUser Commenter { get; set; }
 
+        public Comment(int discussionId)
+        {
+            this.DiscussionId = discussionId;
+        }
+        public Comment() { }
+
     }
 }
