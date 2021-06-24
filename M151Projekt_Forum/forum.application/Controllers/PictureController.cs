@@ -9,24 +9,54 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using forum.business.Models;
 using Microsoft.AspNetCore.Identity;
+using forum.business.DataAccess;
 
 namespace forum.application.Controllers
 {
     public class PictureController : Controller
     {
+        private IDataAccess access;
+        public PictureController(IDataAccess access)
+        {
+            this.access = access;
+        }
+
+        [HttpGet]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(int id, IdentityUser author, string title, string content)
 
         { //id = Model.Id, author = Model.Author, title = Model.Title, content = Model.Content
             
             var fileUploadViewModel = await LoadAllPictures();
             ViewBag.Message = TempData["Message"];
-            Discussion discussion = new Discussion();
-            discussion.Id = id;
-            discussion.Author = author;
-            discussion.Title = title;
-            discussion.Content = content;
-            return RedirectToAction("AddDiscussion", "Discussion", discussion);
+            
+            //access.
+            //ForumDbContext context = new ForumDbContext();
+            //Discussion discussion = new Discussion();
+            //discussion.Id = id;
+            //discussion.Author = author;
+            //discussion.Title = title;
+            //discussion.Content = content;
+            //context.Discussions.Add(discussion);
+            //context.SaveChanges();
+            return View(fileUploadViewModel);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Index(Discussion discussion, Picture picture)
+
+        //{ //id = Model.Id, author = Model.Author, title = Model.Title, content = Model.Content
+
+        //    var fileUploadViewModel = await LoadAllPictures();
+        //    ViewBag.Message = TempData["Message"];
+        //    Discussion discussion = new Discussion();
+        //    discussion.Id = id;
+        //    discussion.Author = author;
+        //    discussion.Title = title;
+        //    discussion.Content = content;
+        //    return RedirectToAction("AddDiscussion", "Discussion");
+        //}
 
         private readonly ForumDbContext context;
 
@@ -48,7 +78,7 @@ namespace forum.application.Controllers
         {
             foreach (var file in files)
             {
-                Discussion discussionToAddFileTo = new Discussion()
+                Discussion discussionToAddFileTo = new Discussion();
                 var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
                 bool basePathExists = System.IO.Directory.Exists(basePath);
                 if (!basePathExists) Directory.CreateDirectory(basePath);

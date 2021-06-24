@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using forum.business.Data;
 
 namespace forum.business.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    partial class ForumDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210624164540_picturesInDiscussion")]
+    partial class picturesInDiscussion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,9 +289,14 @@ namespace forum.business.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("UploadedById")
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DiscussionId");
+
+                    b.HasIndex("UploadedById");
 
                     b.ToTable("Picture");
 
@@ -398,6 +405,12 @@ namespace forum.business.Migrations
                     b.HasOne("forum.business.Models.Discussion", null)
                         .WithMany("Pictures")
                         .HasForeignKey("DiscussionId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UploadedBy")
+                        .WithMany()
+                        .HasForeignKey("UploadedById");
+
+                    b.Navigation("UploadedBy");
                 });
 
             modelBuilder.Entity("forum.business.Models.Discussion", b =>

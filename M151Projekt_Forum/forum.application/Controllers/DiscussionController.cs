@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace forum.application.Controllers
 {
@@ -46,11 +48,41 @@ namespace forum.application.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddDiscussion(Discussion newDiscussion)
+        public async Task<IActionResult> AddDiscussion(Discussion newDiscussion, List<Microsoft.AspNetCore.Http.IFormFile> files)
         {
             var user = new IdentityUser();
             user.Id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             newDiscussion.Author = user;
+            
+            
+
+            List<IFormFile> fileList = files;
+            newDiscussion.Pictures = new List<Picture>();
+            foreach (IFormFile file in fileList)
+            {
+                var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
+                bool basePathExists = System.IO.Directory.Exists(basePath);
+                if (!basePathExists) Directory.CreateDirectory(basePath);
+                var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                var filePath = Path.Combine(basePath, file.FileName);
+                var extension = Path.GetExtension(file.FileName);
+                
+                if (!System.IO.File.Exists(filePath))
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                        newDiscussion.Pictures.Add(new Picture
+                        {
+                            DiscussionId = newDiscussion.Id,
+                            Name = filePath,
+                            //UploadedBy = newDiscussion.Author,
+                            FileType = extension
+                        });
+                    }
+
+                }
+            }
             dataAccess.CreateNewDiscussion(newDiscussion);
             return RedirectToAction("Index");
         }

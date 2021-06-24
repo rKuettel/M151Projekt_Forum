@@ -53,4 +53,10 @@
     <partial name="../../Views/Comment/AddComment.cshtml" model='new forum.business.Models.Comment { DiscussionId = @Model.Id }'>
 </table>
 
+@foreach (forum.business.Models.Picture picture in Model.Pictures)
+{
+    <img src="~/Files/truefact.png" width="500"/>
+}
+
+
 @Url.Action("UploadPictures", "Discussion")
