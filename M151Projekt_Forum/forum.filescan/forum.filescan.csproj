@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<AssemblyTitle>AvScan.WindowsDefender</AssemblyTitle>
+		<PackageId>AvScan.WindowsDefender</PackageId>
+		<OutputType>Library</OutputType>
+		<Version>1.0.4</Version>
+		<Company />
+		<Authors>Jimmy Geels</Authors>
+		<Copyright>Copyright ©  2018</Copyright>
+		<PackageTags>VirusScan Virus ESET WindowsDefender CLI</PackageTags>
+		<Description>CLI wrappers for virus scanners.</Description>
+		<PackageLicenseUrl>https://github.com/yolofy/AvScan/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/yolofy/AvScan</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/yolofy/AvScan</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\$(TargetFramework)\AvScan.WindowsDefender.xml</DocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\AvScan.Core\forum.filescan.csproj" />
+	</ItemGroup>
+</Project>

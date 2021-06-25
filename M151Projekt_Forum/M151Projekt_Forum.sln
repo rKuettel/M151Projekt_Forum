@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "forum.application", "forum.application\forum.application.csproj", "{674B27D2-02ED-4424-B57C-F676784E3E5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "forum.application", "forum.application\forum.application.csproj", "{674B27D2-02ED-4424-B57C-F676784E3E5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "forum.business", "forum.business\forum.business.csproj", "{FECC4508-AD87-4021-98F1-9517385988BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "forum.business", "forum.business\forum.business.csproj", "{FECC4508-AD87-4021-98F1-9517385988BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvScan.WindowsDefender", "..\..\..\AntiVirusScan\src\AvScan.WindowsDefender\AvScan.WindowsDefender.csproj", "{D50BE67F-50AF-46EB-AF20-B3B9F5B77273}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvScan.Core", "..\..\..\AntiVirusScan\src\AvScan.Core\AvScan.Core.csproj", "{672333FC-4496-49A0-B9A3-EEA180E8DFD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{FECC4508-AD87-4021-98F1-9517385988BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FECC4508-AD87-4021-98F1-9517385988BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FECC4508-AD87-4021-98F1-9517385988BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D50BE67F-50AF-46EB-AF20-B3B9F5B77273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D50BE67F-50AF-46EB-AF20-B3B9F5B77273}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D50BE67F-50AF-46EB-AF20-B3B9F5B77273}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D50BE67F-50AF-46EB-AF20-B3B9F5B77273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{672333FC-4496-49A0-B9A3-EEA180E8DFD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{672333FC-4496-49A0-B9A3-EEA180E8DFD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{672333FC-4496-49A0-B9A3-EEA180E8DFD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{672333FC-4496-49A0-B9A3-EEA180E8DFD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

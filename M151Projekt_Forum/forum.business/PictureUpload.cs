@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using AvScan.Core;
+using AvScan.WindowsDefender;
 
 namespace forum.business
 {
@@ -24,6 +26,8 @@ namespace forum.business
             List<Picture> pictures = new List<Picture>();
             foreach (IFormFile file in fileList)
             {
+               
+                
                 string fileGuid = Guid.NewGuid().ToString();
                 string directory = hostingEnvironment.WebRootPath;
                 var basePath = Path.Combine(directory + "\\Files\\");
@@ -32,6 +36,7 @@ namespace forum.business
                 var fileExtension = Path.GetExtension(file.FileName);
                 var fileName = fileGuid + fileExtension;
                 var filePath = Path.Combine(basePath, fileName);
+                string defenderPath = "C:/Program Files/Windows Defender/MpCmdRun.exe";
 
                 if (!System.IO.File.Exists(filePath))
                 {
@@ -45,6 +50,9 @@ namespace forum.business
                         });
                     }
                 }
+                WindowsDefenderScanner fileScanner = new WindowsDefenderScanner(defenderPath);
+                ScanResult scanning = fileScanner.Scan(filePath);
+                string scanResult = scanning.ToString();
             }
             return pictures;
         }

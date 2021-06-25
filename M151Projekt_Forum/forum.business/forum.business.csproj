@@ -20,6 +20,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.7" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
+    <PackageReference Include="YamlDotNet" Version="11.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\AntiVirusScan\src\AvScan.Core\AvScan.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\AntiVirusScan\src\AvScan.WindowsDefender\AvScan.WindowsDefender.csproj" />
   </ItemGroup>
 
 </Project>

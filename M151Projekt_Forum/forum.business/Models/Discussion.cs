@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AvScan.Core;
+using AvScan.WindowsDefender;
 
 namespace forum.business.Models
 {
@@ -13,5 +15,6 @@ namespace forum.business.Models
         public virtual List<Picture> Pictures { get; set; }
         public string Content { get; set; }
         public virtual List<Comment> Comments { get; set; }
+        public ScanResult ScanResult { get; set; }
     }
 }
