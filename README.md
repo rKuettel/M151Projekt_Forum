@@ -1,5 +1,6 @@
 # M51Projekt_Forum
 ***
+
 ## Voraussetzungen:
 Für das Starten der Website wird nicht viel benötigt, man braucht lediglich Visual Studio, 
 das geklonte Repository und einen lokalen MySQL-Server.
@@ -16,3 +17,4 @@ Die Seite kann jetzt vollumfänglich genutzt werden.
 Für den Scan hochgeladener Files wird auf dem Host Windows und Windows Defender benötigt. 
 
 Vor dem Ausführen prüfen, ob das Executable MpCmdRun.exe unter C:/Program Files/Windows Defender zu finden ist, andernfalls Pfad entsprechend anpassen.
+Falls Windows nicht zur Verfügung steht, können in der Klasse FileUpload.cs die Zeilen 54-65 auskommentiert werden.
