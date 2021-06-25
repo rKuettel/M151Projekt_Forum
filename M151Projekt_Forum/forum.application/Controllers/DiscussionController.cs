@@ -66,7 +66,6 @@ namespace forum.application.Controllers
         }
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public IActionResult EditDiscussion(int id) 
         {
             Discussion discussion = dataAccess.GetDiscussionById(id);
