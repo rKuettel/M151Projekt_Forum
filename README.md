@@ -14,3 +14,5 @@ namens "m151_forum" initialisiert, in der alle für die Website benötigten Tabe
 Die Seite kann jetzt vollumfänglich genutzt werden.
 
 Für den Scan hochgeladener Files wird auf dem Host Windows und Windows Defender benötigt. 
+
+Vor dem Ausführen prüfen, ob das Executable MpCmdRun.exe unter C:/Program Files/Windows Defender zu finden ist, andernfalls Pfad entsprechend anpassen.
