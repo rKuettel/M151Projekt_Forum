@@ -12,3 +12,5 @@ das geklonte Repository und einen lokalen MySQL-Server.
 Beim Start wird auf ihrem MySQL-Server mit Hilfe des Pomelo EntityFrameworks eine neue Datenbank 
 namens "m151_forum" initialisiert, in der alle für die Website benötigten Tabellen vorhanden sind.
 Die Seite kann jetzt vollumfänglich genutzt werden.
+
+Für den Scan hochgeladener Files wird auf dem Host Windows und Windows Defender benötigt. 
