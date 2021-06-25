@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AvScan.Core;
 using AvScan.WindowsDefender;
 
+
 namespace forum.business
 {
     public class PictureUpload : IPictureUpload
@@ -26,8 +27,8 @@ namespace forum.business
             List<Picture> pictures = new List<Picture>();
             foreach (IFormFile file in fileList)
             {
-               
-                
+
+
                 string fileGuid = Guid.NewGuid().ToString();
                 string directory = hostingEnvironment.WebRootPath;
                 var basePath = Path.Combine(directory + "\\Files\\");
@@ -53,6 +54,15 @@ namespace forum.business
                 WindowsDefenderScanner fileScanner = new WindowsDefenderScanner(defenderPath);
                 ScanResult scanning = fileScanner.Scan(filePath);
                 string scanResult = scanning.ToString();
+                if (scanning == ScanResult.ThreatFound)
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                        Picture pictureToDelete = pictures.Find(p => p.Name == filePath);
+                        pictures.Remove(pictureToDelete);
+                    }
+                }
             }
             return pictures;
         }
